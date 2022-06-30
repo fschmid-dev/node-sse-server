@@ -1,0 +1,14 @@
+{
+  "name": "node-sse-server",
+  "version": "0.0.1",
+  "description": "A SSE-server written in node with express",
+  "main": "sse-server.js",
+  "repository": "git@github.com:fschmid-dev/node-sse-server.git",
+  "author": "Florian Schmid <info@fschmid.dev>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
