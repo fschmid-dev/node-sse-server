@@ -6,10 +6,13 @@ const http = require('http');
 const https = require('https');
 const jwt = require('jsonwebtoken');
 
-// Define server ports
-// TODO: move config to some config file?
-const HTTP_PORT = 8080;
-const HTTPS_PORT = 8443;
+// Load config file
+if (!fs.existsSync('./config/config.json')) {
+    console.info('./config/config.json not found!');
+    console.info('copy ./config/config.json-dist to ./config/config.json and set your own values!');
+    process.exit();
+}
+const config = require('./config/config.json');
 
 // Setup express app
 const app = express();
@@ -19,21 +22,29 @@ app.use(express.urlencoded({extended: false}));
 
 // Start HTTP server, listen for HTTP_PORT
 const httpServer = http.createServer(app);
-httpServer.listen(HTTP_PORT, () => {
-    console.log('HTTP Server starting on port: ' + HTTP_PORT);
-});
+httpServer.listen(
+    config.server.http.port,
+    config.server.http.host,
+    () => {
+        console.log(`HTTP Server listening on ${config.server.http.host}:${config.server.http.port}`);
+    }
+);
 
 // Check if certificate files exist
 if (fs.existsSync(__dirname + '/key.pem') && fs.existsSync(__dirname + '/cert.pem')) {
     const options = {
-        key: fs.readFileSync(__dirname + '/key.pem'),
-        cert: fs.readFileSync(__dirname + '/cert.pem')
+        key: fs.readFileSync(`${__dirname}/key.pem`),
+        cert: fs.readFileSync(`${__dirname}/cert.pem`)
     };
     // Start HTTPS server, listen for HTTPS_PORT
     const httpsServer = https.createServer(options, app);
-    httpsServer.listen(HTTPS_PORT, () => {
-        console.log('HTTPS Server starting on port: ' + HTTPS_PORT);
-    });
+    httpsServer.listen(
+        config.server.https.port,
+        config.server.https.host,
+        () => {
+            console.log(`HTTPS Server listening on ${config.server.https.host}:${config.server.https.port}`);
+        }
+    );
 }
 
 // Save list of clients, useful for sendAll events
