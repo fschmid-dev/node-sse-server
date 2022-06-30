@@ -52,6 +52,12 @@ let clients = [];
 // Save list of topics, useful for sendAllByTopic events
 let topics = {};
 
+function keepAlive() {
+    console.log('keepAlive');
+    sendToAll('keepAlive');
+}
+setInterval(keepAlive, config.keepAliveTimer);
+
 // Simple status endpoint, to show total client count and client count per topic
 app.get('/status', (request, response) => {
     const topicList = {};
@@ -138,8 +144,10 @@ app.get('/events', (request, response) => {
     request.on('close', () => {
         // Remove client from client list
         clients = clients.filter(client => client.id !== clientId);
-        // Also remove the client from the topic list
-        topics[topic].clients = topics[topic].clients.filter(client => client.id !== clientId);
+        if (topic) {
+            // Also remove the client from the topic list
+            topics[topic].clients = topics[topic].clients.filter(client => client.id !== clientId);
+        }
     })
 });
 

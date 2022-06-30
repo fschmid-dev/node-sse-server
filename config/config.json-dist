@@ -8,5 +8,6 @@
             "host": "localhost",
             "port": 8443
         }
-    }
+    },
+    "keepAliveTimer": 120000
 }
