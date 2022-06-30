@@ -1,6 +1,6 @@
 # node-sse-server
 
-node-sse-server is a simple Node.js + Express.js server app, that provides SSE functionality. It's written to provide a possibility to use the symfony/ux-turbo-mercure bundle in symfony without having to set up a mercure server.
+node-sse-server is a simple Node.js + Express.js server app, that provides SSE ([server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)) functionality. It's written to provide a possibility to use the symfony/ux-turbo-mercure bundle in symfony without having to set up a mercure server.
 
 ## Installation
 
